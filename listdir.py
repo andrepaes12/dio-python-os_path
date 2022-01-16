@@ -11,42 +11,26 @@ from os import listdir  #pecorrer os arquivos do diretório
 from os.path import isfile, join    #confirmar se é um arquivo
 
 #simulando diretório Original e o diretório Zip
-OriginalPath = 'C:/Users/aluis/PycharmProjects/listDir'
-ZipPath = 'C:/Users/aluis/PycharmProjects/listDir'
+OriginalPath = 'localpath/Original'
+ZipPath = 'localpath/Zip'
 
 #ler cada item do diretório e se for um arquivo, adiciona à list[]
 OriginalFiles = [f for f in listdir(OriginalPath) if isfile(join(OriginalPath, f))]
 ZipFiles = [f for f in listdir(ZipPath) if isfile(join(ZipPath, f))]
 
-#burlando um arquivo não compactado (contém no dir Original, mas não contém no dir Zip)
-OriginalFiles.append('fake.py')
-
 #listar o nome dos arquivos (diretório Original) sem a extensão .py
+#isto é necessário pois o arquivo compactado tem o nome alterado 
 OriginalName = []
 for file in OriginalFiles:
     OriginalName.append(file[:-3]) #removendo a extensão .py
-
-#listar o nome dos arquivos (diretório Zip) sem a extensão .py
-ZipListName = []
-for file in ZipFiles:
-    ZipListName.append(file[:-3])
-
-#lista criada para manipular durante a comparação
-zipList = ZipListName.copy()
-
-#simular: renomear o nome dos arquivos compactados (armazenados na pasta Zip)
-for i in range(0, len(ZipListName)):
-    original = ZipListName[i]
-    novo = original + '_zip.py'
-    ZipListName[i] = novo
 
 #lógica de comparação entre os diretórios (Original X Zip)
 filesZip = []
 filesNoZip = OriginalName.copy() #Lista p/ identificar arquivos não compactados (cópia da lista Original para fazer 'engenharia reversa')
 i = 0
 for file in OriginalName:   #para cada arquivo no diretório Original
-    for i in range(0, len(zipList)):    #percorrer cada arquivo no diretório Zip
-        if file == zipList[i]:          #se nome do arquivo Original é igual ao nome do arquivo Zip
+    for i in range(0, len(zipFiles)):    #percorrer cada arquivo no diretório Zip
+        if file == zipFiles[i]:          #se nome do arquivo Original é igual ao nome do arquivo Zip
             filesZip.append(file)    #copiar o nome do arquivo para Lista de Arquivos Compactados (lista Zip)
 
 for file in filesZip:    #para cada arquivo na lista recém criada de Arquivos Copiados
